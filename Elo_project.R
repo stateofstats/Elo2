@@ -1,7 +1,7 @@
 
 
 # Scraping hockey-reference.com for ELO ratings
-# 6/24/2017 
+# 8/27/2017 - all works
 # Derek
 
 
