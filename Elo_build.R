@@ -30,21 +30,25 @@ home = 35        # Adjustment for home advantage
 kvar = 8         # k = velocity of change = 8
 imp = 1          # importance of game( 1 for regular season, 1.5 for playoffs)
 
-# Define functions
 
+###### Load starting Elo ratings #####
 
-library(XML)
-library(dplyr)
-
+# Macbook path
 season2018_start_ratings <- read.csv(file = "~/R/Elo/elo_2018_start.csv")
 
-df2017 <- get_results(2017)
+# PC path
+season2018_start_ratings <- read.csv(file = "~/R/Elo/Elo2/2018/2017-10-04start.csv")
 
-daysubset <- subset(df2017, 
+##### I DONT KNOW WHAT THIS IS #####
+#df2017 <- get_results(2017)
+
+#daysubset <- subset(df2017, 
                     Date == "2016-10-15"
-)
-daysubset
+#)
+#daysubset
+####
 
+##### Define user functions #####
 
 gamestoday <- function(season, date) {
   
@@ -60,7 +64,7 @@ gamestoday(2018, todaysgamedate)
 
 
 
-
+# Macbook formula
 importratings <- function(gamesdate) {
   list.files(setwd("/Users/derekpeterson/Documents/R/Elo/2018"))
   gamesdate <- as.Date(gamesdate)
@@ -69,12 +73,22 @@ importratings <- function(gamesdate) {
   return(ratings)
 }
 
+# PC formula
+importratings <- function(gamesdate) {
+  list.files(setwd("~/R/Elo/Elo2/2018/"))
+  gamesdate <- as.Date(gamesdate)
+  filen <- paste("~/R/Elo/Elo2/2018/",gamesdate,"start.csv", sep = "")
+  ratings <- read.csv(file = filen)  
+  return(ratings)
+}
 
-# Construct initial objects
+
+##### Construct initial objects #####
 
 ratings_today <- importratings(todaysgamedate)
+ratings_today$X <- NULL
 
-games_today <- gamestoday(2017, todaysgamedate)
+games_today <- gamestoday(2018, todaysgamedate)
 
 
 # Populate data frame with calculations
@@ -114,14 +128,16 @@ end_list
 
 # list of todays results should be saved as tomorrow's start
 
-gamedate <- as.Date("20161012", "%Y%m%d")
+gamedate <- as.Date(todaysgamedate + 1, "%Y-%m-%d")
 
-filedate <- paste(gamedate + 1,"start.csv", sep = "")
+filedate <- paste(gamedate,"start.csv", sep = "")
+
+# Macbook path
 write.csv(end_list, file = paste("/Users/derekpeterson/Documents/R/Elo/2018/",filedate, sep = ""))
+# PC Path
+write.csv(end_list, file = paste("~/R/Elo/Elo2/2018/",filedate, sep = ""))
 
 
-
-gamestoday(2017, "2016-10-12")
 
 
 
