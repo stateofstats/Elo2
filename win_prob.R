@@ -37,6 +37,7 @@ importratings <- function(gamesdate) {
   return(ratings)
 }
 
+# PC path
 importratings <- function(gamesdate) {
   list.files(setwd("~/R/Elo/Elo2/2018/"))
   gamesdate <- as.Date(gamesdate)
